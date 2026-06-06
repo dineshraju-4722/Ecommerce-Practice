@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity(name = "categories")
 @Data
 @NoArgsConstructor
@@ -16,6 +19,9 @@ public class Category {
     private Long categoryId;
 
     private String categoryName;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products=new HashSet<>();
 
 
 }
