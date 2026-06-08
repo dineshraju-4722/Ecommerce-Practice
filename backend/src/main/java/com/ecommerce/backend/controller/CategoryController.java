@@ -1,9 +1,11 @@
 package com.ecommerce.backend.controller;
 
+import com.ecommerce.backend.config.AppConstants;
 import com.ecommerce.backend.payload.CategoryDTO;
 import com.ecommerce.backend.payload.CategoryResponse;
 import com.ecommerce.backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,15 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/public/categories")
-    public ResponseEntity<CategoryResponse> getAllCategories(){
-        CategoryResponse categoryResponse = categoryService.getAllCategories();
+    public ResponseEntity<CategoryResponse> getAllCategories(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER , required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE , required = false) Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = AppConstants.PAGE_NUMBER , required = false) String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = AppConstants.PAGE_NUMBER , required = false) String sortOrder,
+
+
+            Sort sort){
+        CategoryResponse categoryResponse = categoryService.getAllCategories(pageNumber,pageSize,sortBy,sortOrder);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
