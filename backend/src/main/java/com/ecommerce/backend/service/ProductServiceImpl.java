@@ -11,12 +11,15 @@ import com.ecommerce.backend.repositories.ProductRepository;
 import org.jspecify.annotations.NonNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -28,6 +31,12 @@ public class ProductServiceImpl implements   ProductService{
     public ProductRepository productRepository;
     @Autowired
     public CategoryRepository categoryRepository;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("${project.image}")
+    private String path;
 
     @Override
     public ProductDTO addProduct(long categoryId, ProductDTO productDTO) {
@@ -86,6 +95,20 @@ public class ProductServiceImpl implements   ProductService{
          List<Product> productsFromDB = productsPage.getContent();
         return getProductResponse(productsFromDB, productsPage);
     }
+
+    @Override
+    public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "ProductId", productId)
+        );
+       String newFilePath = fileService.uploadImage(path,image);
+       product.setImage(newFilePath);
+        Product save = productRepository.save(product);
+        return modelMapper.map(save,ProductDTO.class);
+
+    }
+
+
 
     @NonNull
     private ProductResponse getProductResponse(List<Product> productsFromDB, Page<Product> productsPage) {
