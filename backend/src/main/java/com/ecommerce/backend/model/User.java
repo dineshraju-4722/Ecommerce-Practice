@@ -29,16 +29,16 @@ public class User {
     private Long  id;
 
     @NotBlank
-    @Size(min = 3 , max = 15)
+    @Size(min = 3 , max = 50)
     private String userName;
 
     @NotBlank
     @Email
-    @Size(max=25)
+    @Size(max=50)
     private String email;
 
     @NotBlank
-    @Size(max=30)
+    @Size(min = 3, max=500)
     private String password;
 
     @Getter

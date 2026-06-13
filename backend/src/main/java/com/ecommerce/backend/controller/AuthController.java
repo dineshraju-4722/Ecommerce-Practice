@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,10 +68,11 @@ public class AuthController {
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+        assert principal != null;
         String jwtToken = jwtUtils.generateTokenFromUsername(principal);
 
         List<String> roles = principal.getAuthorities().stream()
-                .map(authority -> authority.getAuthority()).collect(Collectors.toList());
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         LoginResponse loginResponse = new LoginResponse(jwtToken, principal.getUsername(), roles);
         return ResponseEntity.ok(loginResponse);
