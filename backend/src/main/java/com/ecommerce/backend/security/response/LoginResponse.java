@@ -1,6 +1,5 @@
-package com.ecommerce.backend.security.jwt;
+package com.ecommerce.backend.security.response;
 
-import com.ecommerce.backend.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -12,7 +11,7 @@ public class LoginResponse {
     private String jwtToken;
     private String username;
 
-    private List<Role> roles;
+    private List<String> roles;
 
 
 }
