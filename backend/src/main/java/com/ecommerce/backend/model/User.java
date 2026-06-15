@@ -66,6 +66,12 @@ public class User {
     )
     private List<Address>  addresses = new ArrayList<>();
 
+    @ToString.Exclude
+    @OneToOne(mappedBy = "user" ,cascade = {
+            CascadeType.MERGE,CascadeType.PERSIST
+    },orphanRemoval = true)
+    private Cart cart;
+
 
     public User( String userName, String email, String password) {
         this.userName = userName;

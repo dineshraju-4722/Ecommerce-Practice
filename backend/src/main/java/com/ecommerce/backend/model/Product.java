@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.Mergeable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "products")
 @Data
@@ -32,5 +36,9 @@ public class Product {
     @JoinColumn(name = "seller_id")
     private User user;
 
+    @OneToMany(mappedBy = "product"  ,cascade = {
+            CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE
+    },fetch = FetchType.EAGER)
+    private List<CartItem> products = new ArrayList<>();
 
 }
