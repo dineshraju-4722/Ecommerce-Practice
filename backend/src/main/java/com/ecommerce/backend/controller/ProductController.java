@@ -71,4 +71,5 @@ public class ProductController {
        ProductDTO productResponse = productService.updateProductImage(productId,image);
        return new ResponseEntity<>(productResponse,HttpStatus.OK);
    }
+
 }

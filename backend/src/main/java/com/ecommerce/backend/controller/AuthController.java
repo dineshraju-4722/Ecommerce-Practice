@@ -8,11 +8,13 @@ import com.ecommerce.backend.repositories.UserRepository;
 import com.ecommerce.backend.security.jwt.JwtUtils;
 import com.ecommerce.backend.security.request.LoginRequest;
 import com.ecommerce.backend.security.request.SignupRequest;
-import com.ecommerce.backend.security.response.LoginResponse;
+import com.ecommerce.backend.security.response.UserInfoResponse;
 import com.ecommerce.backend.security.response.MessageResponse;
 import com.ecommerce.backend.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,6 +46,8 @@ public class AuthController {
     @Autowired
     private RoleRepository roleRepository;
 
+
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
         Authentication authentication;
@@ -68,14 +69,15 @@ public class AuthController {
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
-        assert principal != null;
-        String jwtToken = jwtUtils.generateTokenFromUsername(principal);
+//        assert principal != null;
+//        String jwtToken = jwtUtils.generateTokenFromUsername(principal);
 
+        ResponseCookie cookie = jwtUtils.generateCookie(principal);
         List<String> roles = principal.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        LoginResponse loginResponse = new LoginResponse(jwtToken, principal.getUsername(), roles);
-        return ResponseEntity.ok(loginResponse);
+        UserInfoResponse loginResponse = new UserInfoResponse(principal.getId(), principal.getUsername(), roles);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,cookie.toString()).body(loginResponse);
 
     }
 
@@ -129,6 +131,24 @@ public class AuthController {
 
         return ResponseEntity.ok
                 (new MessageResponse("User Registered Successfully"));
+    }
 
+    @GetMapping("/username")
+    public String username(Authentication authentication){
+        return authentication!=null?authentication.getName():null;
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser(Authentication authentication){
+        UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = principal.getAuthorities().stream()
+                .map( auth -> auth.getAuthority())
+                .collect(Collectors.toList());
+        UserInfoResponse loginResponse = new UserInfoResponse(
+                principal.getId(),
+                principal.getUsername(),
+                roles
+        );
+        return ResponseEntity.ok().body(loginResponse);
     }
 }

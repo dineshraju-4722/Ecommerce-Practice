@@ -1,5 +1,6 @@
 package com.ecommerce.backend.security.jwt;
 
+import com.ecommerce.backend.security.services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,12 +23,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
 
 
     private String parseJwt(HttpServletRequest request){
-        return jwtUtils.jwtFromHeader(request);
+        return jwtUtils.jwtFromCookies(request);
     }
 
     @Override

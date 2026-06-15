@@ -7,8 +7,9 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class LoginResponse {
-    private String jwtToken;
+public class UserInfoResponse {
+    private Long id;
+//    private String jwtToken;
     private String username;
 
     private List<String> roles;
