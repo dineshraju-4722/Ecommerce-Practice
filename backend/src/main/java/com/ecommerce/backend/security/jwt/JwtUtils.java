@@ -86,4 +86,10 @@ public class JwtUtils {
         if(cookie==null)return null;
         return cookie.getValue();
     }
+
+    public ResponseCookie cleanJwtCookie() {
+        return ResponseCookie.from(jwtCookie,null)
+                .path("/api")
+                .build();
+    }
 }
