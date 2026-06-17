@@ -1,7 +1,8 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.payload.CartDTO;
-import org.springframework.stereotype.Service;
+import com.ecommerce.backend.security.response.MessageResponse;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface CartService {
     CartDTO getCart(String loggedInEmail);
 
     CartDTO updateProductCart(Long productId, int delete);
+
+    MessageResponse deleteProductFromCart(Long cartId, Long productId);
+
 }

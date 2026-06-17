@@ -1,9 +1,7 @@
 package com.ecommerce.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.beans.Mergeable;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public class Product {
     private User user;
 
     @OneToMany(mappedBy = "product"  ,cascade = {
-            CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE
+            CascadeType.MERGE,CascadeType.PERSIST
     },fetch = FetchType.EAGER)
     private List<CartItem> products = new ArrayList<>();
 

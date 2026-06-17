@@ -1,8 +1,6 @@
 package com.ecommerce.backend.model;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart" ,cascade = {
-            CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH
+            CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE
     },orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 

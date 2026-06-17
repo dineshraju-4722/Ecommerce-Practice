@@ -1,6 +1,7 @@
 package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.payload.CartDTO;
+import com.ecommerce.backend.security.response.MessageResponse;
 import com.ecommerce.backend.service.CartService;
 import com.ecommerce.backend.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,4 +50,9 @@ public class CartContoller {
         return new ResponseEntity<>(cartDTO,HttpStatus.OK);
     }
 
+    @DeleteMapping("/carts/{cartId}/product/{productId}")
+    public ResponseEntity<MessageResponse> deleteProductFromCart(@PathVariable Long cartId, @PathVariable Long productId){
+        MessageResponse messageResponse = cartService.deleteProductFromCart(cartId, productId);
+        return new ResponseEntity<>(messageResponse,HttpStatus.GONE);
+    }
 }
