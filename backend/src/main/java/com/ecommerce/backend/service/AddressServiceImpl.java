@@ -5,6 +5,7 @@ import com.ecommerce.backend.model.Address;
 import com.ecommerce.backend.model.User;
 import com.ecommerce.backend.payload.AddressDTO;
 import com.ecommerce.backend.repositories.AddressRepository;
+import com.ecommerce.backend.security.response.MessageResponse;
 import com.ecommerce.backend.util.AuthUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,26 @@ public class AddressServiceImpl implements  AddressService {
     public List<AddressDTO> getAddressesByUser(Long loggedInUserId) {
         List<Address> addressesList = addressRepository.findByUser_Id(loggedInUserId);
         return addressesList.stream().map( address -> modelMapper.map(address, AddressDTO.class) ).collect(Collectors.toList());
+    }
+
+    @Override
+    public AddressDTO updateAddress(AddressDTO addressDTO, Long addressId) {
+        Address address = addressRepository.findById(addressId).orElseThrow(() -> new ResourceNotFoundException("Address", "AddressId", addressId));
+        address.setCity(addressDTO.getCity());
+        address.setCountry(addressDTO.getCountry());
+        address.setState(addressDTO.getState());
+        address.setBuildingName(addressDTO.getBuildingName());
+        address.setStreet(addressDTO.getStreet());
+        address.setPinCode(addressDTO.getPinCode());
+        addressRepository.save(address);
+        return modelMapper.map(address,AddressDTO.class);
+    }
+
+    @Override
+    public MessageResponse deleteAddress(Long addressId) {
+        addressRepository.findById(addressId).orElseThrow( ()-> new ResourceNotFoundException("address","addressId",addressId) );
+        addressRepository.deleteById(addressId);
+        return new MessageResponse("Address deleted Successfullt");
     }
 
 

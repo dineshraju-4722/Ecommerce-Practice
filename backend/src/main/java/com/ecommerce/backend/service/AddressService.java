@@ -1,6 +1,7 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.payload.AddressDTO;
+import com.ecommerce.backend.security.response.MessageResponse;
 
 import java.util.List;
 
@@ -13,4 +14,8 @@ public interface AddressService {
     AddressDTO getAddressById(Long addressId);
 
     List<AddressDTO> getAddressesByUser(Long loggedInUserId);
+
+    AddressDTO updateAddress(AddressDTO addressDTO, Long addressId);
+
+    MessageResponse deleteAddress(Long addressId);
 }

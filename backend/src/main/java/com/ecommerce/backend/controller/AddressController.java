@@ -1,6 +1,7 @@
 package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.payload.AddressDTO;
+import com.ecommerce.backend.security.response.MessageResponse;
 import com.ecommerce.backend.service.AddressService;
 import com.ecommerce.backend.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,18 @@ public class AddressController {
         Long loggedInUserId = authUtil.getLoggedInUserId();
         List<AddressDTO> addressDTOS =  addressService.getAddressesByUser(loggedInUserId);
         return new ResponseEntity<>(addressDTOS , HttpStatus.OK);
+    }
+
+    @PutMapping("/addresses/{addressId}")
+    public ResponseEntity<AddressDTO> updateAddress(@RequestBody AddressDTO addressDTO,@PathVariable Long addressId){
+        AddressDTO addressDTOResponse = addressService.updateAddress( addressDTO ,addressId );
+        return new ResponseEntity<>(addressDTOResponse,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/addresses/{addressId}")
+    public ResponseEntity<MessageResponse> deleteAddress(@PathVariable Long addressId){
+        MessageResponse messageResponse = addressService.deleteAddress(addressId);
+        return new ResponseEntity<>(messageResponse,HttpStatus.OK);
     }
 
 }
