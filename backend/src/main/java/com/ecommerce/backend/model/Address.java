@@ -1,7 +1,9 @@
 package com.ecommerce.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,19 +41,25 @@ public class Address {
     @Size(min=4 , message = "State name must atleast 3 characters")
     private String state;
 
+    @NotNull
+    @Min(value = 100000 , message = "must be 3 or greater")
+    private int pinCode;
+
     @NotBlank
-    @Size(min = 6 , message = "pincode must have atleast 6 characters")
-    private int pincode;
+    @Size(min = 3 , message = "Country name must be atleast 3 characters")
+    private String country;
 
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Address(String street, String buildingName, String city, String state, int pincode) {
+    public Address(String street, String buildingName, String city, String state, int pinCode,String country) {
         this.street = street;
         this.buildingName = buildingName;
         this.city = city;
         this.state = state;
-        this.pincode = pincode;
+        this.pinCode = pinCode;
+        this.country=country;
     }
 }
