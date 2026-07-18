@@ -4,6 +4,7 @@ import com.ecommerce.backend.model.Category;
 import com.ecommerce.backend.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findByCategory(Category categoryFromDB, Pageable pageDetails);
 
     Page<Product> findByProductNameLikeIgnoreCase(String s, Pageable pageDetails);
+
+    Page<Product> findAll(Specification<Product> spec, Pageable pageDetails);
 }
