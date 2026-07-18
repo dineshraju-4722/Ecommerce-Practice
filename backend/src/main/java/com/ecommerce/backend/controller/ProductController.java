@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
@@ -28,10 +30,10 @@ public class ProductController {
       return new ResponseEntity<>(savedProduct, HttpStatus.OK);
    }
 
-   @GetMapping("/public/products")
+   @GetMapping("/public/products/**")
     public ResponseEntity<ProductResponse> getProducts(
             @RequestParam(name = "pageNumber" , defaultValue = AppConstants.PAGE_NUMBER , required = false) int pageNumber,
-            @RequestParam(name = "pageNumber" , defaultValue = AppConstants.PAGE_SIZE , required = false) int pageSize,
+            @RequestParam(name = "pageSize" , defaultValue = AppConstants.PAGE_SIZE , required = false) int pageSize,
             @RequestParam(name = "sortBy" , defaultValue = AppConstants.SORT_PRODUCTS_BY , required = false) String sortBy,
             @RequestParam(name = "sortOrder" , defaultValue = AppConstants.SORT_DIR , required = false) String sortOrder
 

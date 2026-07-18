@@ -5,14 +5,14 @@ import Loader from "../shared/Loader";
 import { FaExclamationTriangle } from "react-icons/fa";
 import Paginations from "../shared/Paginations";
 import useProductFilter from "../hooks/useProductFilter";
-import ProductCard from "./ProductCard";
+import ProductCard from "../shared/ProductCard";
 
 const Products = () => {
     const { isLoading, errorMessage } = useSelector((state) => state.errors);
     const { products, categories, pagination } = useSelector((state) => state.products);
     const dispatch = useDispatch();
-
     useProductFilter();
+
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch])
@@ -20,27 +20,27 @@ const Products = () => {
         <div>
             {isLoading ?
                 (<Loader />
-                ) : errorMessage ? (
-                    // className="flex justify-center items-center h-[200px]"
-                    <div >
-                        {/* className="text-slate-800 text-3xl mr-2" */}
-                        <FaExclamationTriangle />
-                        {/* className="text-slate-800 text-lg font-medium" */}
-                        <span >
+                ) : errorMessage  ? (
+                    // 
+                    <div className="flex justify-center items-center h-[200px]" >
+                        
+                        <FaExclamationTriangle className="text-slate-800 text-3xl mr-2"/>
+                        
+                        <span className="text-slate-800 text-lg font-medium">
                             {errorMessage}
                         </span>
                     </div>
                 ) : (
-                    // className="min-h-[700px]"
-                    <div >
-                        {/* className="pb-6 pt-14 grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-y-6 gap-x-6" */}
-                        <div >
+                    
+                    <div className="min-h-[700px]" >
+                        
+                        <div className="pb-6 pt-14 grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-y-6 gap-x-6">
                             {products &&
                                 products.map((item, i) => <ProductCard key={i} {...item} />
                                 )}
                         </div>
-                        {/* className="flex justify-center pt-10" */}
-                        <div >
+                        
+                        <div className="flex justify-center pt-10" >
                             <Paginations
                                 numberOfPage={pagination?.totalPages}
                                 totalProducts={pagination?.totalElements} />

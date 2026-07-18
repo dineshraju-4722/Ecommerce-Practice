@@ -7,11 +7,12 @@ const initialstate = {
 export const ProductReducer = (state = initialstate, action) => {
     switch (action.type) {
         case "FETCH_PRODUCTS":
+            console.log(action.payload)
             return {
                 ...state,
                 products: action.payload,
                 pagination: {
-                    ...pagination,
+                    ...state.pagination,
                     pageNumber: action.pageNumber,
                     pageSize: action.pageSize,
                     totalElements: action.totalElements,
@@ -24,7 +25,7 @@ export const ProductReducer = (state = initialstate, action) => {
                 ...state,
                 categories : action.payload,
                 pagination : {
-                    ...pagination,
+                    ...state.pagination,
                     totalElements : action.totalElements , 
                     lastPage : action.lastPage,
                     totalPages : action.totalPages,

@@ -1,4 +1,4 @@
-const initialstate = {
+const   initialstate = {
     isLoading: false,
     errorMessage: null,
     categoryLoader: false,
