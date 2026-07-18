@@ -1,4 +1,4 @@
-initialstate = {
+const initialstate = {
     products: null,
     categories: null,
     pagination: {}
@@ -26,8 +26,8 @@ export const ProductReducer = (state = initialstate, action) => {
                 pagination : {
                     ...pagination,
                     totalElements : action.totalElements , 
-                    lastPage = action.lastPage,
-                    totalPages = action.totalPages,
+                    lastPage : action.lastPage,
+                    totalPages : action.totalPages,
                     pageSize : action.pageSize,
                     pageNumber : action.pageNumber,
                 },

@@ -1,6 +1,15 @@
-const App = () =>{
+import Products from "./products/Products"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+const App = () => {
   return (
-    <></>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Products />} />
+        </Routes>
+      </Router>
+    </>
   )
 }
 
