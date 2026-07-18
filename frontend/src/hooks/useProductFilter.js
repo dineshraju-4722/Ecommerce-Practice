@@ -13,12 +13,12 @@ const useProductFilter = () => {
         const currentPage = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
         params.set("pageNumber", currentPage - 1);
 
-        const sortOrder = searchParams.get("sortBy") || "asc";
+        const sortOrder = searchParams.get("sortOrder") || "asc";
         const categoryParams = searchParams.get("category") || null;
         const keyword = searchParams.get("keyword") || null;
         params.set("sortBy", "price");
         params.set("sortOrder", sortOrder);
-        params.set("pageSize",Number(searchParams.get("pageSize")));
+        // params.set("pageSize",Number(searchParams.get("pageSize")));
 
         if (categoryParams) { params.set("category", categoryParams); }
         if (keyword) { params.set("keyword", keyword); }
